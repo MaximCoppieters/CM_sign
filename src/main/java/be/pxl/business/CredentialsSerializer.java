@@ -53,7 +53,7 @@ public class CredentialsSerializer {
 
             return apiCredentials;
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Failed to read credentials from file, please enter them again.");
+            System.out.println("Failed to read cmApiCredentials from file, please enter them again.");
             askForCredentials();
         }
         return null; // should never happen
