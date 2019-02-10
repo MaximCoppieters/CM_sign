@@ -10,8 +10,9 @@ import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.List;
 
-public class InviteSender extends PostRequestUnit<Invitee> {
+public class InviteSender extends PostRequestUnit<List<Invitee>> {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public InviteSender(Credentials credentials) {
@@ -29,16 +30,19 @@ public class InviteSender extends PostRequestUnit<Invitee> {
     }
 
     @Override
-    protected HttpEntity createPostRequestBody(Invitee invitee) throws UnsupportedEncodingException {
+    protected HttpEntity createPostRequestBody(List<Invitee> invitees) throws UnsupportedEncodingException {
         ArrayNode invitePostRequestBody = objectMapper.createArrayNode();
 
-        ObjectNode inviteJson = objectMapper.createObjectNode();
-        final int INVITE_DURATION_SECONDS = 2592000;
-        inviteJson.put("inviteeId", invitee.getId());
-        inviteJson.put("email", true);
-        inviteJson.put("expiresIn", INVITE_DURATION_SECONDS);
+        for (Invitee invitee : invitees) {
+            ObjectNode inviteJson = objectMapper.createObjectNode();
 
-        invitePostRequestBody.add(inviteJson);
+            final int INVITE_DURATION_SECONDS = 2592000;
+            inviteJson.put("inviteeId", invitee.getId());
+            inviteJson.put("email", true);
+            inviteJson.put("expiresIn", INVITE_DURATION_SECONDS);
+
+            invitePostRequestBody.add(inviteJson);
+        }
         return new StringEntity(invitePostRequestBody.asText());
     }
 }

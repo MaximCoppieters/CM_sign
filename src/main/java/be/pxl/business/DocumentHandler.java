@@ -20,29 +20,21 @@ public class DocumentHandler {
         this.cmApiCredentials = cmApiCredentials;
     }
 
-    public Document uploadDocument(Path documentPath) {
+    public Document uploadDocument(Path documentPath) throws IOException, URISyntaxException {
         URI apiPdfUploadUrl = PathsUtility.API_ROOT_PATH.resolve(API_UPLOAD_ENDPOINT);
 
-        try {
-            DocumentUploader pdfUploader = new DocumentUploader(cmApiCredentials, apiPdfUploadUrl.toURL());
-            HttpResponse pdfUploadResponse = pdfUploader.upload(documentPath.toFile());
+        DocumentUploader pdfUploader = new DocumentUploader(cmApiCredentials, apiPdfUploadUrl.toURL());
+        HttpResponse pdfUploadResponse = pdfUploader.upload(documentPath.toFile());
 
-            pdfUploadResponse.getEntity().getContent();
+    pdfUploadResponse.getEntity().getContent();
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            pdfUploadResponse.getEntity().writeTo(byteArrayOutputStream);
-            String documentJsonString = byteArrayOutputStream.toString();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        pdfUploadResponse.getEntity().writeTo(byteArrayOutputStream);
+        String documentJsonString = byteArrayOutputStream.toString();
 
-            DocumentMapper documentMapper = new DocumentMapper();
-            Document document = documentMapper.fromJson(documentJsonString);
+        DocumentMapper documentMapper = new DocumentMapper();
+        Document document = documentMapper.fromJson(documentJsonString);
 
-            return document;
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        throw new RuntimeException(
-                String.format("Wasn't able to upload pdf at %s to CM API",
-                        documentPath.toString()));
+        return document;
     }
 }

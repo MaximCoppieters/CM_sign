@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 public class InviteHandler {
     private static final String API_INVITE_ENDPOINT_HEAD = "dossiers";
@@ -20,11 +21,11 @@ public class InviteHandler {
         inviteSender = new InviteSender(credentials);
     }
 
-    public void sendEmailInvite(Invitee invitee, String dossierId) throws IOException, URISyntaxException {
+    public void sendEmailInvite(List<Invitee> invitees, String dossierId) throws IOException, URISyntaxException {
         URL cmSignInvitePostUrl = generateApiUrlForDossierId(dossierId);
         inviteSender.setCmApiPostUrl(cmSignInvitePostUrl);
         System.out.println(cmSignInvitePostUrl);
-        HttpResponse inviteResponse = inviteSender.upload(invitee);
+        HttpResponse inviteResponse = inviteSender.upload(invitees);
 
         System.out.println(inviteResponse);
         EntityUtility.printEntity(inviteResponse.getEntity());

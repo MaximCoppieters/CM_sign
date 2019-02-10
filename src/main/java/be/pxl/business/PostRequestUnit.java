@@ -26,7 +26,7 @@ public abstract class PostRequestUnit<T> {
 
     public CloseableHttpResponse upload(T body) throws URISyntaxException, IOException {
         if (cmApiPostUrl == null) {
-            throw new NullPointerException("Couldn't post request as post request URL wasn't specified");
+            throw new NullPointerException("Couldn't post request because URL wasn't specified");
         }
 
         System.out.println(cmApiPostUrl);

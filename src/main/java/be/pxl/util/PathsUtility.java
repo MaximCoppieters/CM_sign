@@ -11,7 +11,9 @@ public class PathsUtility {
 
     static {
         try {
-            API_ROOT_PATH = new URI("https://api.sandbox.cmdisp.com/sign/v1/");
+            API_ROOT_PATH = new URI("https://api.cmdisp.com/sign/v1/");
+
+            // API_ROOT_PATH = new URI("https://api.sandbox.cmdisp.com/sign/v1/");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
