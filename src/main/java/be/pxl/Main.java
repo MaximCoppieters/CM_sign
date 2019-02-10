@@ -4,6 +4,7 @@ import be.pxl.data.model.Document;
 import be.pxl.data.model.Dossier;
 import be.pxl.data.model.Invitee;
 import be.pxl.util.PathsUtility;
+import org.apache.commons.logging.impl.Log4JLogger;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
