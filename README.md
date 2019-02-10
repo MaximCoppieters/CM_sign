@@ -5,9 +5,9 @@ CM Sign API docs:
 https://docs.cmtelecom.com/nl/api/cm-sign/1.0/index/
 
 Dependencies:
-jjwt - json web token authentication
-Apache httpcomponents - HTTP Communication with API
-Jackson Core - Serializing to and from JSON
+* jjwt - json web token authentication
+* Apache httpcomponents - HTTP Communication with API
+* Jackson Core - Serializing to and from JSON
 
 Todo:
 1. Move to production API
