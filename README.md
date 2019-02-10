@@ -1,5 +1,8 @@
 # CM_sign
-Code to automate the signing of documents using the CM sign API.
+Uses the CM Sign API to automate the signing of digital documents by clients.
+
+CM Sign API docs:
+https://docs.cmtelecom.com/nl/api/cm-sign/1.0/index/
 
 Todo:
 1. Move to production API
