@@ -62,7 +62,6 @@ public class CmSignApi {
     }
 
     private void tryUploadDossier(Dossier dossier) {
-        String errorMessage = "";
         try {
             dossierHandler.uploadDossier(dossier);
         } catch (IOException ioe) {
