@@ -1,9 +1,13 @@
 package be.pxl.business;
 
 import be.pxl.data.model.Dossier;
+import be.pxl.util.PathsUtility;
+import org.apache.http.HttpResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.format.DateTimeFormatter;
 
 public class DossierHandler {
@@ -21,13 +25,15 @@ public class DossierHandler {
         String dossierJson = dossierMapper.toJson(dossier);
         System.out.println(dossierJson);
 
-/*        URL cmApiDossierUploadUrl = PathsUtility.API_ROOT_PATH.resolve(API_DOSSIER_ENDPOINT).toURL();
+        URL cmApiDossierUploadUrl = PathsUtility.API_ROOT_PATH.resolve(API_DOSSIER_ENDPOINT).toURL();
         DossierUploader dossierUploader = new DossierUploader(cmApiCredentials, cmApiDossierUploadUrl);
 
         HttpResponse dossierPostResponse = dossierUploader.upload(dossierJson);
 
-        System.out.println(dossierPostResponse);*/
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        dossierPostResponse.getEntity().writeTo(byteArrayOutputStream);
+        String dossierResponseJson = byteArrayOutputStream.toString();
+
+        dossierMapper.appendResponseJson(dossier, dossierResponseJson);
     }
-
-
 }

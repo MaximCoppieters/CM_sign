@@ -2,6 +2,7 @@ package be.pxl.business;
 
 import be.pxl.data.model.Document;
 import be.pxl.util.PathsUtility;
+import javassist.NotFoundException;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,6 +40,9 @@ public class DocumentHandler {
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
-        return null;
+
+        throw new RuntimeException(
+                String.format("Wasn't able to upload pdf at %s to CM API",
+                        documentPath.toString()));
     }
 }

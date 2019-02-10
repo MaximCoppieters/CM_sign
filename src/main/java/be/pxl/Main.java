@@ -1,8 +1,6 @@
 package be.pxl;
 
-import be.pxl.business.Credentials;
-import be.pxl.business.CredentialsSerializer;
-import be.pxl.business.DossierHandler;
+import be.pxl.business.*;
 import be.pxl.data.model.*;
 import be.pxl.util.PathsUtility;
 import org.apache.catalina.core.ApplicationContext;
@@ -21,16 +19,16 @@ public class Main {
     public static void main(String[] args) {
         CredentialsSerializer credentialsSerializer = new CredentialsSerializer(PathsUtility.getCredentialsPath());
         Credentials cmApiCredentials = credentialsSerializer.getCredentials();
-/*        DocumentHandler documentHandler = new DocumentHandler();
+        DocumentHandler documentHandler = new DocumentHandler(cmApiCredentials);
 
-        Document uploadedDocument = documentHandler.uploadDocument(PathsUtility.getPdfPath());*/
-        Document uploadedDocument = getHardCodedDocument();
+        Document uploadedDocument = documentHandler.uploadDocument(PathsUtility.getPdfPath());
+        //Document uploadedDocument = getHardCodedDocument();
 
-        Invitee invitee = new Invitee(uploadedDocument.getId(), "Maxim", "maximcoppieters@student.pxl.be");
+        Invitee invitee = new Invitee("6c38955e-7324-41e7-97dd-0bcf55e275e2", "Maxim", "maxim.coppieters@student.pxl.be");
         SignDimensions signDimensions =
-                new SignDimensions(new Point(0,0),50,50);
+                new SignDimensions(new Point(0,0),0,0);
         DocumentField signingField =
-                new DocumentField("signature", uploadedDocument.getId(), "1-3", signDimensions, "{sign1}");
+                new DocumentField("initials", uploadedDocument.getId(), "1-3", signDimensions, "{sign1}");
         invitee.addField(signingField);
 
         List<Invitee> invitees = new ArrayList<>();
@@ -43,6 +41,14 @@ public class Main {
         DossierHandler dossierHandler = new DossierHandler(cmApiCredentials);
         try {
             dossierHandler.uploadDossier(dossier);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        InviteHandler inviteHandler = new InviteHandler(cmApiCredentials);
+
+        try {
+            inviteHandler.sendEmailInvite(invitee, dossier.getId());
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }

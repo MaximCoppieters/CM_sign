@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Invitee {
-    private String reference;
+    private String id;
     private String name;
     private String email;
     private List<DocumentField> fields;
@@ -13,9 +13,9 @@ public class Invitee {
         fields = new ArrayList<>();
     }
 
-    public Invitee(String reference, String name, String email) {
+    public Invitee(String id, String name, String email) {
         fields = new ArrayList<>();
-        this.reference = reference;
+        this.id = id;
         this.name = name;
         this.email = email;
     }
@@ -28,12 +28,12 @@ public class Invitee {
         return email;
     }
 
-    public String getReference() {
-        return reference;
+    public String getId() {
+        return id;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {

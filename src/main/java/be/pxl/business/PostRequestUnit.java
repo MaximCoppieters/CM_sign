@@ -15,15 +15,22 @@ public abstract class PostRequestUnit<T> {
     protected Credentials credentials;
     protected URL cmApiPostUrl;
 
+    public PostRequestUnit(Credentials credentials) {
+        this.credentials = credentials;
+    }
+
     public PostRequestUnit(Credentials credentials, URL cmApiPostUrl) {
         this.credentials = credentials;
         this.cmApiPostUrl = cmApiPostUrl;
     }
 
     public CloseableHttpResponse upload(T body) throws URISyntaxException, IOException {
+        if (cmApiPostUrl == null) {
+            throw new NullPointerException("Couldn't post request as post request URL wasn't specified");
+        }
+
         System.out.println(cmApiPostUrl);
         CloseableHttpClient cmRestClient = HttpClients.createDefault();
-
         HttpPost pdfPostRequest = new HttpPost(cmApiPostUrl.toURI());
         setPostRequestHeaders(pdfPostRequest);
 
@@ -34,9 +41,14 @@ public abstract class PostRequestUnit<T> {
     }
 
     abstract protected void setPostRequestHeaders(HttpPost post);
+
     abstract protected HttpEntity createPostRequestBody(T bodyContent) throws UnsupportedEncodingException;
 
     public String generateAuthorizationHeaderProperty(Credentials credentials) {
         return String.format("Bearer %s", credentials.getCmJsonWebtoken());
+    }
+
+    public void setCmApiPostUrl(URL cmApiPostUrl) {
+        this.cmApiPostUrl = cmApiPostUrl;
     }
 }

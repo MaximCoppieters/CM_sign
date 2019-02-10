@@ -14,7 +14,7 @@ public class DossierUploader extends PostRequestUnit<String> {
 
     @Override
     protected void setPostRequestHeaders(HttpPost dossierPostRequest) {
-        dossierPostRequest.addHeader("Content-Type", "multipart/form-data");
+        dossierPostRequest.addHeader("Content-Type", "application/json");
         dossierPostRequest.addHeader("Authorization", generateAuthorizationHeaderProperty(credentials));
     }
 

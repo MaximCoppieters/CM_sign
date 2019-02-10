@@ -2,17 +2,25 @@ package be.pxl.business;
 
 import be.pxl.data.model.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.omg.CORBA.Object;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DossierMapper extends Mapper {
+
+    public Dossier appendResponseJson(Dossier dossier, String dossierResponseJsonString)
+            throws IOException {
+        JsonNode dossierResponseJson = objectMapper.readTree(dossierResponseJsonString);
+
+        dossier.setId(dossierResponseJson.get("id").textValue());
+
+        return dossier;
+    }
 
     public String toJson(Dossier dossier) {
         ObjectNode dossierJson = objectMapper.createObjectNode();
@@ -28,11 +36,14 @@ public class DossierMapper extends Mapper {
     }
 
     private JsonNode createFilesJson(Dossier dossier) {
-        Map<String, String> documentIds = dossier.getFiles()
-                        .stream()
-                        .map(Document::getId)
-                        .collect(Collectors.toMap(d -> "id", Function.identity()));
-        return objectMapper.convertValue(documentIds, JsonNode.class);
+        ArrayNode filesNode = objectMapper.createArrayNode();
+        for (Document document : dossier.getFiles()) {
+            ObjectNode fileNode = objectMapper.createObjectNode();
+            fileNode.put("id", document.getId());
+            filesNode.add(fileNode);
+        }
+
+        return filesNode;
     }
 
     private ArrayNode createInviteeJsonArray(List<Invitee> invitees) {
@@ -48,7 +59,7 @@ public class DossierMapper extends Mapper {
 
         inviteeJson.put("name", invitee.getName());
         inviteeJson.put("email", invitee.getEmail());
-        inviteeJson.put("reference", invitee.getReference());
+        inviteeJson.put("reference", invitee.getId());
 
         ArrayNode fieldsJson = createFieldJsonArray(invitee.getFields());
         inviteeJson.set("fields", fieldsJson);
@@ -91,8 +102,8 @@ public class DossierMapper extends Mapper {
 
     private ObjectNode createOriginJsonNode(Point origin) {
         ObjectNode sizeJson = objectMapper.createObjectNode();
-        sizeJson.put("width", origin.x);
-        sizeJson.put("height", origin.y);
+        sizeJson.put("x", origin.x);
+        sizeJson.put("y", origin.y);
         return sizeJson;
     }
 
