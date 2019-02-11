@@ -25,7 +25,7 @@ public class CmSignApi {
         inviteHandler = new InviteHandler(cmApiCredentials);
     }
 
-    public void sendInvitationEmailsForDocuments(Path pdfFilePath, List<Invitee> invitees) {
+    public void sendInvitationEmailsForDocuments(Path pdfFilePath, List<Invitee> invitees) throws CmSignException {
         Document uploadedDocument = tryUploadDocument(pdfFilePath);
 
         SignDimensions signDimensions =
@@ -40,7 +40,7 @@ public class CmSignApi {
         List<Document> documents = new ArrayList<>();
         documents.add(uploadedDocument);
 
-        Dossier dossier = new Dossier("Contract 1", documents, invitees);
+        Dossier dossier = new Dossier(pdfFilePath.getFileName().toString(), documents, invitees);
         tryUploadDossier(dossier);
 
         trySendInvite(invitees, dossier.getId());
@@ -58,7 +58,7 @@ public class CmSignApi {
                     PathsUtility.getPdfPath().toString());
         }
 
-        throw new RuntimeException(errorMessage);
+        throw new CmSignException(errorMessage);
     }
 
     private void tryUploadDossier(Dossier dossier) {
@@ -67,10 +67,6 @@ public class CmSignApi {
         } catch (IOException ioe) {
             throw new CmSignException(
                     String.format("Failed to upload dossier %s to CM Sign API",
-                            dossier.getId()));
-        } catch (URISyntaxException e) {
-            throw new CmSignException(
-                    String.format("Failed to upload dossier: URI endpoint was invalid",
                             dossier.getId()));
         }
     }

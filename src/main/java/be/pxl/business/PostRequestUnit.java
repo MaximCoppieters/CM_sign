@@ -29,7 +29,6 @@ public abstract class PostRequestUnit<T> {
             throw new NullPointerException("Couldn't post request because URL wasn't specified");
         }
 
-        System.out.println(cmApiPostUrl);
         CloseableHttpClient cmRestClient = HttpClients.createDefault();
         HttpPost pdfPostRequest = new HttpPost(cmApiPostUrl.toURI());
         setPostRequestHeaders(pdfPostRequest);

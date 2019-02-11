@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class CredentialsSerializer {
 
@@ -42,7 +43,8 @@ public class CredentialsSerializer {
 
             credentialsWriter.writeObject(apiCredentials);
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            Logger.getLogger(CredentialsSerializer.class.getName())
+                    .severe("Couldn't create credentials file");
         }
     }
 

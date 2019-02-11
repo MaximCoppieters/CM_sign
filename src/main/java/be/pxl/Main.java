@@ -1,5 +1,6 @@
 package be.pxl;
 
+import be.pxl.business.CmSignException;
 import be.pxl.data.model.Document;
 import be.pxl.data.model.Dossier;
 import be.pxl.data.model.Invitee;
@@ -9,6 +10,7 @@ import org.apache.commons.logging.impl.Log4JLogger;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,6 +22,14 @@ public class Main {
         Path pdfFilePath = PathsUtility.getPdfPath();
 
         CmSignApi cmSignApi = new CmSignApi();
-        cmSignApi.sendInvitationEmailsForDocuments(pdfFilePath, invitees);
+
+        Logger logger = Logger.getLogger(Main.class.getName());
+        try {
+            cmSignApi.sendInvitationEmailsForDocuments(pdfFilePath, invitees);
+        } catch(CmSignException e) {
+            logger.severe("Couldn't send invitation email for document "
+                    + pdfFilePath.getFileName().toString() + "Reason: " + e.getMessage());
+        }
+
     }
 }
