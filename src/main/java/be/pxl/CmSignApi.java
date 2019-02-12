@@ -8,7 +8,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,13 +61,7 @@ public class CmSignApi {
     }
 
     private void tryUploadDossier(Dossier dossier) {
-        try {
-            dossierHandler.uploadDossier(dossier);
-        } catch (IOException ioe) {
-            throw new CmSignException(
-                    String.format("Failed to upload dossier %s to CM Sign API",
-                            dossier.getId()));
-        }
+        dossierHandler.uploadDossier(dossier);
     }
 
     private void trySendInvite(List<Invitee> invitees, String dossierId) {
@@ -78,14 +71,5 @@ public class CmSignApi {
             throw new CmSignException(
                     String.format("Failed to send invites of dossier %s", dossierId));
         }
-    }
-
-    public static Document getHardCodedDocument() {
-        String id = "3bcb6740-607a-4618-966e-a561b6353580";
-        String name = "generics_presentatie";
-        String hash = "4b1da4a47cb7bdfd06082d6b3255425b5b2735b3423d30a5f4cc01c32be7436e";
-        LocalDateTime uploadDateTime = LocalDateTime.of(2019,1,30,2,9,0);
-
-        return new Document(id, name, hash, uploadDateTime);
     }
 }

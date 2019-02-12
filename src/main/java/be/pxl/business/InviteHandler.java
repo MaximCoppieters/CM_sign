@@ -4,13 +4,14 @@ import be.pxl.data.model.Invitee;
 import be.pxl.util.PathsUtility;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class InviteHandler extends ApiHandler {
     private static final String API_INVITE_ENDPOINT_HEAD = "dossiers";
@@ -42,9 +43,9 @@ public class InviteHandler extends ApiHandler {
 
     @Override
     protected void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
-        Logger logger = Logger.getLogger(DossierHandler.class.getName());
+        Logger logger = LogManager.getLogger(DossierHandler.class.getName());
         if (HttpUtility.apiCallWasSuccessful(pdfUploadResponse)) {
-            logger.info("Invited clients to sign documents, response was " +
+            logger.debug("Invited clients to sign documents, response was " +
                     HttpUtility.formulateResponse(responseJson));
         } else {
             throw new CmSignException("Failed to invite clients - "

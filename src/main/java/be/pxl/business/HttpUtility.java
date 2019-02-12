@@ -14,7 +14,12 @@ public class HttpUtility {
     }
 
     public static boolean apiCallWasSuccessful(HttpResponse response) {
-        return response.getStatusLine().getStatusCode() == HttpStatus.SC_CREATED;
+        switch (response.getStatusLine().getStatusCode()) {
+            case HttpStatus.SC_OK:
+            case HttpStatus.SC_CREATED:
+            case HttpStatus.SC_ACCEPTED: return true;
+            default: return false;
+        }
     }
 
     public static String formulateResponse(String responseJson) {

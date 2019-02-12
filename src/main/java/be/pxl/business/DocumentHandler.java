@@ -3,12 +3,13 @@ package be.pxl.business;
 import be.pxl.data.model.Document;
 import be.pxl.util.PathsUtility;
 import org.apache.http.HttpResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
-import java.util.logging.Logger;
 
 public class DocumentHandler extends ApiHandler {
     private static final String API_UPLOAD_ENDPOINT = "upload";
@@ -35,12 +36,12 @@ public class DocumentHandler extends ApiHandler {
 
     @Override
     protected void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
-        Logger logger = Logger.getLogger(DocumentHandler.class.getName());
+        Logger logger = LogManager.getLogger(DocumentHandler.class.getName());
         if (HttpUtility.apiCallWasSuccessful(pdfUploadResponse)) {
-            logger.info("Successfully uploaded document"
+            logger.debug("Successfully uploaded document"
                     + HttpUtility.formulateResponse(responseJson));
         } else {
-            throw new CmSignException("Failed to create - "
+            throw new CmSignException("Failed to create document - "
                     + HttpUtility.formulateResponse(responseJson));
         }
     }

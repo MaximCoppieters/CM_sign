@@ -5,6 +5,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,9 +26,7 @@ public abstract class PostRequestUnit<T> {
     }
 
     public CloseableHttpResponse upload(T body) throws URISyntaxException, IOException {
-        if (cmApiPostUrl == null) {
-            throw new NullPointerException("Couldn't post request because URL wasn't specified");
-        }
+        assert cmApiPostUrl != null;
 
         CloseableHttpClient cmRestClient = HttpClients.createDefault();
         HttpPost pdfPostRequest = new HttpPost(cmApiPostUrl.toURI());

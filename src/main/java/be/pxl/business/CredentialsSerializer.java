@@ -1,10 +1,11 @@
 package be.pxl.business;
 
+import org.apache.logging.log4j.LogManager;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 public class CredentialsSerializer {
 
@@ -43,8 +44,8 @@ public class CredentialsSerializer {
 
             credentialsWriter.writeObject(apiCredentials);
         } catch (IOException ioe) {
-            Logger.getLogger(CredentialsSerializer.class.getName())
-                    .severe("Couldn't create credentials file");
+            LogManager.getLogger(CredentialsSerializer.class.getName())
+                    .error("Couldn't create credentials file");
         }
     }
 
