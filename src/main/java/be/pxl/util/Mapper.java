@@ -1,4 +1,4 @@
-package be.pxl.business;
+package be.pxl.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

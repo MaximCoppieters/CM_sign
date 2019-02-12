@@ -1,10 +1,10 @@
-package be.pxl.business;
+package be.pxl.util;
 
 import be.pxl.data.model.*;
+import be.pxl.util.Mapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.omg.CORBA.Object;
 
 import java.awt.*;
 import java.io.IOException;

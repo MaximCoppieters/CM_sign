@@ -1,6 +1,8 @@
 package be.pxl.business;
 
 import be.pxl.data.model.Document;
+import be.pxl.util.DocumentMapper;
+import be.pxl.util.HttpUtility;
 import be.pxl.util.PathsUtility;
 import org.apache.http.HttpResponse;
 import org.apache.logging.log4j.LogManager;

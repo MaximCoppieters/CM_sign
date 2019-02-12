@@ -1,6 +1,8 @@
 package be.pxl.business;
 
 import be.pxl.data.model.Dossier;
+import be.pxl.util.DossierMapper;
+import be.pxl.util.HttpUtility;
 import be.pxl.util.PathsUtility;
 import org.apache.http.HttpResponse;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +12,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.time.format.DateTimeFormatter;
 
 public class DossierHandler extends ApiHandler {
     // private static final DateTimeFormatter dossierDateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;

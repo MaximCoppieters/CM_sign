@@ -1,4 +1,4 @@
-package be.pxl.business;
+package be.pxl.util;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;

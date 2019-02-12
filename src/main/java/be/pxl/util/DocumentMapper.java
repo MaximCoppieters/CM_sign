@@ -1,8 +1,8 @@
-package be.pxl.business;
+package be.pxl.util;
 
 import be.pxl.data.model.Document;
+import be.pxl.util.Mapper;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

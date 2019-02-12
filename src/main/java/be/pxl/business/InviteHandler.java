@@ -1,8 +1,8 @@
 package be.pxl.business;
 
 import be.pxl.data.model.Invitee;
+import be.pxl.util.HttpUtility;
 import be.pxl.util.PathsUtility;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
