@@ -7,9 +7,13 @@ public class DocumentField {
     private SignDimensions signDimensions;
     private String tag;
 
-    public DocumentField() {}
+    public DocumentField(String type, String documentId, String tag) {
+        this.type = type;
+        this.documentId = documentId;
+        this.tag = tag;
+    }
 
-    public DocumentField(String type, String documentId, String range, SignDimensions signDimensions, String tag) {
+    public DocumentField(String type, String documentId, String range, SignDimensions signDimensions) {
         this.type = type;
         this.documentId = documentId;
         this.range = range;

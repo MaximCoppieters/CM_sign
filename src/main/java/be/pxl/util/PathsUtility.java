@@ -24,7 +24,7 @@ public class PathsUtility {
     public static Path getPdfPath() {
         return Paths.get(System.getProperty("user.dir"))
                 .resolve("resource")
-                .resolve("generics_presentatie.pdf");
+                .resolve("dummy.pdf");
     }
 
     public static Path getCredentialsPath() {

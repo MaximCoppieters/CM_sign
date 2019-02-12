@@ -30,7 +30,7 @@ public class CmSignApi {
         SignDimensions signDimensions =
                 new SignDimensions(new Point(0,0),0,0);
         DocumentField signingField =
-                new DocumentField("initials", uploadedDocument.getId(), "1-3", signDimensions, "{sign1}");
+                new DocumentField("signature", uploadedDocument.getId(), "{signature1}");
 
         for (Invitee invitee : invitees) {
             invitee.addField(signingField);

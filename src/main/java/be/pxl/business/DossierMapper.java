@@ -80,10 +80,14 @@ public class DossierMapper extends Mapper {
 
         fieldJson.put("type", field.getType());
         fieldJson.put("file", field.getDocumentId());
-        fieldJson.put("range", field.getRange());
 
-        ObjectNode signDimensionsJson = createDimensionsJsonNode(field.getSignDimensions());
-        fieldJson.set("dimensions", signDimensionsJson);
+        if (field.getType().equals("signature")) {
+            fieldJson.put("tag", field.getTag());
+        } else {
+            fieldJson.put("range", field.getRange());
+            ObjectNode signDimensionsJson = createDimensionsJsonNode(field.getSignDimensions());
+            fieldJson.set("dimensions", signDimensionsJson);
+        }
 
         return fieldJson;
     }
