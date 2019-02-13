@@ -12,8 +12,8 @@ import java.net.URL;
 public class DocumentUploader extends PostRequestUnit<File> {
     private static final String REQUEST_PDF_BOUNDARY = "request-boundary";
 
-    public DocumentUploader(Credentials credentials, URL cmApiPostUrl) {
-        super(credentials, cmApiPostUrl);
+    public DocumentUploader(URL cmApiPostUrl) {
+        super(cmApiPostUrl);
     }
 
     protected void setPostRequestHeaders(HttpPost pdfPostRequest) {

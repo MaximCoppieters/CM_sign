@@ -9,19 +9,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.List;
 
 public class InviteSender extends PostRequestUnit<List<Invitee>> {
     private ObjectMapper objectMapper = new ObjectMapper();
-
-    public InviteSender(Credentials credentials) {
-        super(credentials);
-    }
-
-    public InviteSender(Credentials credentials, URL cmApiPostUrl) {
-        super(credentials, cmApiPostUrl);
-    }
 
     @Override
     protected void setPostRequestHeaders(HttpPost invitePostRequest) {

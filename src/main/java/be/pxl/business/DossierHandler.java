@@ -13,14 +13,12 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class DossierHandler extends ApiHandler {
+public class DossierHandler implements ApiHandler {
     // private static final DateTimeFormatter dossierDateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
     private static final String API_DOSSIER_ENDPOINT = "dossiers";
-    private Credentials cmApiCredentials;
     private DossierUploader dossierUploader;
 
-    public DossierHandler(Credentials cmApiCredentials) {
-        this.cmApiCredentials = cmApiCredentials;
+    public DossierHandler() {
         createDossierUploader();
     }
 
@@ -30,7 +28,7 @@ public class DossierHandler extends ApiHandler {
                     .resolve(API_DOSSIER_ENDPOINT)
                     .toURL();
 
-            dossierUploader = new DossierUploader(cmApiCredentials, cmApiDossierUploadUrl);
+            dossierUploader = new DossierUploader(cmApiDossierUploadUrl);
         } catch(MalformedURLException e) {
             throw new CmSignException("Dossier upload URL was invalid");
         }
@@ -59,7 +57,7 @@ public class DossierHandler extends ApiHandler {
     }
 
     @Override
-    protected void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
+    public void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
         Logger logger = LogManager.getLogger(DossierHandler.class.getName());
         if (HttpUtility.apiCallWasSuccessful(pdfUploadResponse)) {
             logger.debug("Created dossier through API, Response was "

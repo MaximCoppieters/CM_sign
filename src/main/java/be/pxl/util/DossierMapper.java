@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Objects of this class map Dossiers to JSON, for use with the API
+ */
 public class DossierMapper extends Mapper {
-
     public Dossier appendResponseJson(Dossier dossier, String dossierResponseJsonString)
             throws IOException {
         JsonNode dossierResponseJson = objectMapper.readTree(dossierResponseJsonString);

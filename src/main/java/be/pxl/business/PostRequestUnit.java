@@ -15,12 +15,12 @@ public abstract class PostRequestUnit<T> {
     protected Credentials credentials;
     protected URL cmApiPostUrl;
 
-    public PostRequestUnit(Credentials credentials) {
-        this.credentials = credentials;
+    public PostRequestUnit() {
+        this(null);
     }
 
-    public PostRequestUnit(Credentials credentials, URL cmApiPostUrl) {
-        this.credentials = credentials;
+    public PostRequestUnit(URL cmApiPostUrl) {
+        this.credentials = Credentials.getInstance();
         this.cmApiPostUrl = cmApiPostUrl;
     }
 

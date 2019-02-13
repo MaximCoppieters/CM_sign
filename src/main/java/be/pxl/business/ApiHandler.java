@@ -2,7 +2,11 @@ package be.pxl.business;
 
 import org.apache.http.HttpResponse;
 
-public abstract class ApiHandler {
-    protected abstract void checkAndLogResponse
+/**
+ * Handlers should log and check the responses of API requests.
+ * This is to improve safety and ease of debugging
+ */
+public interface ApiHandler {
+     public void checkAndLogResponse
             (HttpResponse pdfUploadResponse, String responseJson);
 }

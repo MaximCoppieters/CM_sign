@@ -3,6 +3,10 @@ package be.pxl.data.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An invitee is a person that can be invited to sign a document. The invitation happens using the person's
+ * email address. The id is used to refer to the invitee on CM's API.
+ */
 public class Invitee {
     private String id;
     private String name;

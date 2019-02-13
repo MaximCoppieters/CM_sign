@@ -13,13 +13,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-public class InviteHandler extends ApiHandler {
+public class InviteHandler implements ApiHandler {
     private static final String API_INVITE_ENDPOINT_HEAD = "dossiers";
     private static final String API_INVITE_ENDPOINT_TAIL = "invites";
     private InviteSender inviteSender;
 
-    public InviteHandler(Credentials credentials) {
-        inviteSender = new InviteSender(credentials);
+    public InviteHandler() {
+        inviteSender = new InviteSender();
     }
 
     public void sendEmailInvite(List<Invitee> invitees, String dossierId)
@@ -42,7 +42,7 @@ public class InviteHandler extends ApiHandler {
     }
 
     @Override
-    protected void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
+    public void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
         Logger logger = LogManager.getLogger(DossierHandler.class.getName());
         if (HttpUtility.apiCallWasSuccessful(pdfUploadResponse)) {
             logger.debug("Invited clients to sign documents, response was " +

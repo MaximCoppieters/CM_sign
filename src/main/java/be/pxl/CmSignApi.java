@@ -11,17 +11,28 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An abstraction of the API CM offers in order to automate and digitalise the signing of PDF documents.
+ * Under the hood the API will do the following things:
+ * <ul>
+ *     <li>Take the path of a PDF file, and a number of Invitees (POJO user object with name and email) </li>
+ *     <li>Upload the file, creating a document on CM's service</li>
+ *     <li>Take the ID of the created document and assign invitees to them,
+ *     use this data to create a dossier on CM.
+ *     </li>
+ *     </li>
+ *     <li>Take the generated ID of the generated dossier and </li>
+ * </ul>
+ */
 public class CmSignApi {
     private DocumentHandler documentHandler;
     private DossierHandler dossierHandler;
     private InviteHandler inviteHandler;
 
     public CmSignApi() {
-        CredentialsSerializer credentialsSerializer = new CredentialsSerializer(PathsUtility.getCredentialsPath());
-        Credentials cmApiCredentials = credentialsSerializer.getCredentials();
-        documentHandler = new DocumentHandler(cmApiCredentials);
-        dossierHandler = new DossierHandler(cmApiCredentials);
-        inviteHandler = new InviteHandler(cmApiCredentials);
+        documentHandler = new DocumentHandler();
+        dossierHandler = new DossierHandler();
+        inviteHandler = new InviteHandler();
     }
 
     public void sendInvitationEmailsForDocuments(Path pdfFilePath, List<Invitee> invitees) throws CmSignException {

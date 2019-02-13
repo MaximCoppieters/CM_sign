@@ -6,6 +6,9 @@ import org.apache.http.HttpStatus;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+/**
+ * This class holds methods that are commonly used in HTTP requests and responses
+ */
 public class HttpUtility {
     public static String getHttpBodyOf(HttpResponse response) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -8,8 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 public class DossierUploader extends PostRequestUnit<String> {
-    public DossierUploader(Credentials credentials, URL cmApiPostUrl) {
-        super(credentials, cmApiPostUrl);
+    public DossierUploader(URL cmApiPostUrl) {
+        super(cmApiPostUrl);
     }
 
     @Override
