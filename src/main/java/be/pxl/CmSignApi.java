@@ -35,7 +35,7 @@ public class CmSignApi {
         inviteHandler = new InviteHandler();
     }
 
-    public void sendInvitationEmailsForDocuments(Path pdfFilePath, List<Invitee> invitees) throws CmSignException {
+    public void sendInvitationsForFiles(Path pdfFilePath, List<Invitee> invitees) throws CmSignException {
         Document uploadedDocument = tryUploadDocument(pdfFilePath);
 
         SignDimensions signDimensions =
