@@ -3,6 +3,7 @@ reated by https://www.gitignore.io/api/osx,java,eclipse,intellij,maven
 
 .idea/
 logs/
+extra/
 
 ## Security
 keys.txt
