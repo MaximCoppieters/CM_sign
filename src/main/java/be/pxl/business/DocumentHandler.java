@@ -1,6 +1,7 @@
 package be.pxl.business;
 
 import be.pxl.data.model.Document;
+import be.pxl.data.model.PdfFile;
 import be.pxl.util.DocumentMapper;
 import be.pxl.util.HttpUtility;
 import be.pxl.util.PathsUtility;
@@ -9,18 +10,27 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 
 public class DocumentHandler implements ApiHandler {
     private static final String API_UPLOAD_ENDPOINT = "upload";
+    private PdfUploader pdfUploader;
 
-    public Document uploadDocument(Path documentPath) throws IOException, URISyntaxException {
-        URI apiPdfUploadUrl = PathsUtility.API_ROOT_PATH.resolve(API_UPLOAD_ENDPOINT);
+    public DocumentHandler() {
+         URI apiPdfUploadUrl = PathsUtility.API_ROOT_PATH.resolve(API_UPLOAD_ENDPOINT);
+    try {
+        pdfUploader = new PdfUploader(apiPdfUploadUrl.toURL());
+        } catch (MalformedURLException e) {
+            throw new CmSignException(
+                    String.format("Couldn't form CM API Document Creation URI from base %s and endpoint %s"
+                            ,PathsUtility.API_ROOT_PATH.toString(), API_UPLOAD_ENDPOINT));
+        }
+    }
 
-        DocumentUploader pdfUploader = new DocumentUploader(apiPdfUploadUrl.toURL());
-        HttpResponse pdfUploadResponse = pdfUploader.upload(documentPath.toFile());
+    public Document createDocumentFrom(PdfFile pdfFile) throws IOException, URISyntaxException {
+        HttpResponse pdfUploadResponse = pdfUploader.upload(pdfFile);
         String documentJsonString = HttpUtility.getHttpBodyOf(pdfUploadResponse);
 
         checkAndLogResponse(pdfUploadResponse, documentJsonString);

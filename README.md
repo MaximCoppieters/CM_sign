@@ -9,28 +9,28 @@ The class CmSignApi serves as an abstraction of the REST API offered by CM.
 Simply create an object and call the sendInvitationsForFiles method. (see example below)
 
 ```java
-public static void main(String[] args) {
-        // invitees require an ID for use with the API. This can be a customer ID used by your backend
-        Invitee maxim = new Invitee("6c38955e-7324-41e7-97dd-0bcf55e275e2", "Maxim", "maxim.coppieters@student.pxl.be");
-        Invitee john = new Invitee("6c38955e-7324-41e7-97dd-0bcf55e275e2", "John", "johndoe@gmail.com");
-        List<Invitee> invitees = Arrays.asList(invitee, john);
+public static void main(String[] args) throws FileNotFoundException {
+    Invitee invitee = new Invitee("Maxim", "maxim.coppieters@student.pxl.be");
 
-        Path pdfFilePath = Paths.get("path", "to", "pdf");
+    PdfFile pdfFile = new PdfFile(Paths.get("path", "to", "pdf", "contract"));
 
-        CmSignApi cmSignApi = new CmSignApi();
-      
-        Logger logger = LogManager.getLogger(Main.class.getName());
-        try {
-            cmSignApi.sendInvitationsForFiles(pdfFilePath, invitees);
-        } catch(CmSignException e) {
-            logger.error("Couldn't send invitation email for document "
-                    + pdfFilePath.getFileName().toString() + ". Reason: " + e.getMessage());
-        }
+    CmSignApi cmSignApi = new CmSignApi();
+    Logger logger = LogManager.getLogger(Main.class.getName());
+    try {
+        cmSignApi.sendInvitationForPdfFilePath(pdfFile, invitee);
+    } catch(CmSignException e) {
+        logger.error("Couldn't send invitation email for document "
+                + pdfFile.getFileName() + ". Reason: " + e.getMessage());
+    }
 }
 ```
+
+In case you don't want to save the generated PDF file locally (as CM will save it for you),
+you can also create send the PdfFile binary as an InputStream object.
+
 ## How it works  
 Under the hood the API will do the following things:
-1. Take the path of a PDF file, and a number of Invitees (POJO user object with name and email)
+1. Take the path or binary input stream of a PDF file, and a number of Invitees (POJO user object with name and email)
 2. Upload the file, creating a document on CM's service
 3. Take the ID of the created document and assign invitees to them and use this data to create a dossier on CM.
 4. Take the generated ID of the generated dossier with its associated invitees and send an invitation request to CM.

@@ -2,29 +2,30 @@ package be.pxl;
 
 import be.pxl.business.CmSignException;
 import be.pxl.data.model.Invitee;
+import be.pxl.data.model.PdfFile;
 import be.pxl.util.PathsUtility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class Main {
-    public static void main(String[] args) {
-        Invitee invitee = new Invitee("6c38955e-7324-41e7-97dd-0bcf55e275e2", "Maxim", "maxim.coppieters@student.pxl.be");
+    public static void main(String[] args) throws FileNotFoundException {
+        Invitee invitee = new Invitee("Maxim", "maxim.coppieters@student.pxl.be");
 
-        List<Invitee> invitees = Arrays.asList(invitee);
-
-        Path pdfFilePath = PathsUtility.getPdfPath();
+        InputStream pdfFileStream = new FileInputStream(PathsUtility.getPdfPath().toFile());
+        PdfFile pdfFile = new PdfFile("Test", pdfFileStream);
 
         CmSignApi cmSignApi = new CmSignApi();
         Logger logger = LogManager.getLogger(Main.class.getName());
+
         try {
-            cmSignApi.sendInvitationsForFiles(pdfFilePath, invitees);
+            cmSignApi.sendInvitationForPdfFilePath(pdfFile, invitee);
         } catch(CmSignException e) {
             logger.error("Couldn't send invitation email for document "
-                    + pdfFilePath.getFileName().toString() + ". Reason: " + e.getMessage());
+                    + pdfFile.getFileName() + ". Reason: " + e.getMessage());
         }
     }
 }

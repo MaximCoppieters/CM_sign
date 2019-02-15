@@ -7,8 +7,8 @@ import be.pxl.util.PathsUtility;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,8 +35,11 @@ public class CmSignApi {
         inviteHandler = new InviteHandler();
     }
 
-    public void sendInvitationsForFiles(Path pdfFilePath, List<Invitee> invitees) throws CmSignException {
-        Document uploadedDocument = tryUploadDocument(pdfFilePath);
+    /**
+     * Use this method if multiple invitees are to sign the document.
+     */
+    public void sendInvitationsForPdfFilePath(PdfFile pdfFile, List<Invitee> invitees) throws CmSignException {
+        Document uploadedDocument = tryCreateDocument(pdfFile);
 
         SignDimensions signDimensions =
                 new SignDimensions(new Point(0,0),0,0);
@@ -50,16 +53,23 @@ public class CmSignApi {
         List<Document> documents = new ArrayList<>();
         documents.add(uploadedDocument);
 
-        Dossier dossier = new Dossier(pdfFilePath.getFileName().toString(), documents, invitees);
-        tryUploadDossier(dossier);
+        Dossier dossier = new Dossier(pdfFile.getFileName().toString(), documents, invitees);
+        tryCreateDossier(dossier);
 
         trySendInvite(invitees, dossier.getId());
     }
 
-    private Document tryUploadDocument(Path pdfFilePath) {
+    /**
+     * Use this method if only a single invitee has to sign the document
+     */
+    public void sendInvitationForPdfFilePath(PdfFile pdfFile, Invitee invitee) throws CmSignException {
+        sendInvitationsForPdfFilePath(pdfFile, Arrays.asList(invitee));
+    }
+
+    private Document tryCreateDocument(PdfFile pdfFile) {
         String errorMessage;
         try {
-            return documentHandler.uploadDocument(pdfFilePath);
+            return documentHandler.createDocumentFrom(pdfFile);
         } catch (IOException e) {
             errorMessage = String.format("Couldn't find the document to upload at path %s",
                     PathsUtility.getPdfPath().toString());
@@ -71,7 +81,7 @@ public class CmSignApi {
         throw new CmSignException(errorMessage);
     }
 
-    private void tryUploadDossier(Dossier dossier) {
+    private void tryCreateDossier(Dossier dossier) {
         dossierHandler.uploadDossier(dossier);
     }
 
