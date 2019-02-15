@@ -4,8 +4,8 @@ Uses the CM Sign API to automate the signing of digital documents by clients.
 CM Sign API docs:
 https://docs.cmtelecom.com/nl/api/cm-sign/1.0/index/
 
-How to use:
-The class CmSignApi serves as an abstraction of the REST API offered by CM.
+## How to use  
+The class CmSignApi serves as an abstraction of the REST API offered by CM.  
 Simply create an object and call the sendInvitationsForFiles method. (see example below)
 
 ```java
@@ -28,7 +28,7 @@ public static void main(String[] args) {
         }
 }
 ```
-How it works:
+## How it works  
 Under the hood the API will do the following things:
 1. Take the path of a PDF file, and a number of Invitees (POJO user object with name and email)
 2. Upload the file, creating a document on CM's service
@@ -39,13 +39,13 @@ the content of the PDF file. The location at which the invitee is required to si
 When the person clicks the highlight, he/she can choose a signature style. The actual signature will be their name.
 6. When every invitee has signed the document, the owner will get an email with an overview of all signatures (and the dates on which they were made)
 
-Dependencies:
+## Dependencies
 * log4jv2 - logging errors and normal flow
 * jjwt - json web token authentication with API
 * Apache httpcomponents - HTTP Communication with API
 * Jackson Core - Serializing to and from JSON
 
-Todo:
+## Todo
 1. Move to production API
 2. Catch all exception paths
 3. Integrate project with Spring backend
