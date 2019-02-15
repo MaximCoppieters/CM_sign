@@ -8,6 +8,8 @@ logs/
 keys.txt
 resource/
 
+questions.txt
+
 ### Eclipse ###
 .metadata
 bin/
