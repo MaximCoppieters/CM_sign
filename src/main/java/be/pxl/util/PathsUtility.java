@@ -14,10 +14,10 @@ public class PathsUtility {
     static {
         try {
             // Uncomment for Production API
-            API_ROOT_PATH = new URI("https://api.cmdisp.com/sign/v1/");
+/*            API_ROOT_PATH = new URI("https://api.cmdisp.com/sign/v1/");*/
 
             // Uncomment for Sandbox Api
-            // API_ROOT_PATH = new URI("https://api.sandbox.cmdisp.com/sign/v1/");
+            API_ROOT_PATH = new URI("https://api.sandbox.cmdisp.com/sign/v1/");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

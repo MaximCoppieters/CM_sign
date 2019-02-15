@@ -8,17 +8,35 @@ import java.util.List;
  * email address. The id is used to refer to the invitee on CM's API.
  */
 public class Invitee {
+    /**
+     * Id: Field that is used to assign a field to a particular invitee
+     * optional if the all invitees use the same field.
+     */
     private String id;
     private String name;
     private String email;
     private List<DocumentField> fields;
+    private InviteeLanguage language;
 
     public Invitee() {
         fields = new ArrayList<>();
     }
 
+    public Invitee(String name, String email) {
+        this("", name, email);
+    }
+
     public Invitee(String id, String name, String email) {
+        this(InviteeLanguage.DUTCH, id, name, email);
+    }
+
+    public Invitee(InviteeLanguage language, String name, String email) {
+        this(language, null, name, email);
+    }
+
+    public Invitee(InviteeLanguage language, String id, String name, String email) {
         fields = new ArrayList<>();
+        this.language = language;
         this.id = id;
         this.name = name;
         this.email = email;
@@ -44,12 +62,17 @@ public class Invitee {
         this.name = name;
     }
 
+    //Todo: validate email address?
     public void setEmail(String email) {
         this.email = email;
     }
 
     public void addField(DocumentField field) {
         fields.add(field);
+    }
+
+    public InviteeLanguage getLanguage() {
+        return language;
     }
 
     public List<DocumentField> getFields() {

@@ -45,7 +45,7 @@ public class InviteHandler implements ApiHandler {
     public void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
         Logger logger = LogManager.getLogger(DossierHandler.class.getName());
         if (HttpUtility.apiCallWasSuccessful(pdfUploadResponse)) {
-            logger.debug("Invited clients to sign documents, response was " +
+            logger.debug("Invited clients to sign documents, " +
                     HttpUtility.formulateResponse(responseJson));
         } else {
             throw new CmSignException("Failed to invite clients - "

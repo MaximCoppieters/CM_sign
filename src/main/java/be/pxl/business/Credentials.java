@@ -29,7 +29,7 @@ public class Credentials implements Serializable {
 
     private static Credentials instance;
 
-    {
+    static {
         CredentialsSerializer credentialsSerializer = new CredentialsSerializer(PathsUtility.getCredentialsPath());
         instance = credentialsSerializer.getCredentials();
     }
@@ -74,7 +74,7 @@ public class Credentials implements Serializable {
         return cmJsonWebtoken;
     }
 
-    private class CredentialsSerializer {
+    private static class CredentialsSerializer {
 
         private Path serializationPath;
 
