@@ -1,6 +1,7 @@
 package be.pxl.business;
 
 import be.pxl.data.model.Invitee;
+import be.pxl.util.InvitationMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,7 +18,7 @@ import java.util.List;
  * CM Sign API, in order to send invitations to invitees
  */
 public class InviteSender extends PostRequestUnit<List<Invitee>> {
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private InvitationMapper invitationMapper = new InvitationMapper();
 
     public InviteSender(URL requestUrl) {
         super(requestUrl);
@@ -35,18 +36,7 @@ public class InviteSender extends PostRequestUnit<List<Invitee>> {
 
     @Override
     protected HttpEntity createPostRequestBody(List<Invitee> invitees) throws UnsupportedEncodingException {
-        ArrayNode invitePostRequestBody = objectMapper.createArrayNode();
-
-        for (Invitee invitee : invitees) {
-            ObjectNode inviteJson = objectMapper.createObjectNode();
-
-            final int INVITE_DURATION_SECONDS = 2592000;
-            inviteJson.put("inviteeId", invitee.getId());
-            inviteJson.put("email", true);
-            inviteJson.put("expiresIn", INVITE_DURATION_SECONDS);
-
-            invitePostRequestBody.add(inviteJson);
-        }
-        return new StringEntity(invitePostRequestBody.asText());
+        return new StringEntity(invitationMapper.toInvitationsJson(invitees).toString());
     }
+
 }

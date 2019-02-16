@@ -1,5 +1,6 @@
 package be.pxl.util;
 
+import be.pxl.business.CmSignException;
 import be.pxl.data.model.DocumentField;
 import be.pxl.data.model.SignDimensions;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,12 +10,14 @@ import java.awt.*;
 
 public class DocumentFieldMapper extends Mapper {
     public JsonNode toJsonNode(DocumentField field) {
+        throwIfInvalid(field);
+
         ObjectNode fieldJson = objectMapper.createObjectNode();
 
         fieldJson.put("type", field.getType());
         fieldJson.put("file", field.getDocumentId());
 
-        if (field.getType().equals("signature")) {
+        if (hasSignatureTag(field)) {
             fieldJson.put("tag", field.getTag());
         } else {
             fieldJson.put("range", field.getRange());
@@ -23,6 +26,16 @@ public class DocumentFieldMapper extends Mapper {
         }
 
         return fieldJson;
+    }
+
+    private boolean hasSignatureTag(DocumentField field) {
+        return field.getType().equals("signature");
+    }
+
+    private void throwIfInvalid(DocumentField field) {
+        if (field == null) {
+            throw new CmSignException("DocumentField passed to DocumentFieldMapper was null");
+        }
     }
 
     private ObjectNode createDimensionsJsonNode(SignDimensions signDimensions) {

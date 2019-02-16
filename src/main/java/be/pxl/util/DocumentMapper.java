@@ -1,5 +1,6 @@
 package be.pxl.util;
 
+import be.pxl.business.CmSignException;
 import be.pxl.data.model.Document;
 import be.pxl.util.Mapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,8 +15,13 @@ import java.time.format.DateTimeFormatter;
 public class DocumentMapper extends Mapper {
     private DateTimeFormatter uploadDateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
 
-    public Document fromJson(String documentJsonString) throws IOException {
-        JsonNode documentJson = objectMapper.readTree(documentJsonString);
+    public Document fromJson(String documentJsonString) {
+        JsonNode documentJson;
+        try {
+            documentJson = objectMapper.readTree(documentJsonString);
+        } catch(IOException ioe) {
+            throw new CmSignException("Couldn't map JSON to Document - JSON was " + documentJsonString);
+        }
 
         String id = documentJson.get("id").asText();
         String name = documentJson.get("name").asText();

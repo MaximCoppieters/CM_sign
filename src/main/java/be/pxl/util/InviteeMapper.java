@@ -1,5 +1,6 @@
 package be.pxl.util;
 
+import be.pxl.business.CmSignException;
 import be.pxl.data.model.DocumentField;
 import be.pxl.data.model.Invitee;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,6 +18,8 @@ public class InviteeMapper extends Mapper {
     }
 
     public JsonNode toJsonNode(Invitee invitee) {
+        throwIfNullOrDocumentFieldIsAbsent(invitee);
+
         ObjectNode inviteeJson = objectMapper.createObjectNode();
 
         inviteeJson.put("name", invitee.getName());
@@ -28,6 +31,16 @@ public class InviteeMapper extends Mapper {
         inviteeJson.set("fields", fieldsJson);
 
         return inviteeJson;
+    }
+
+    private void throwIfNullOrDocumentFieldIsAbsent(Invitee invitee) {
+        if (invitee == null) throw new CmSignException("Invitee passed to InviteeMapper was null");
+        // Check for sign field early, to avoid API exceptions
+        if (invitee.getFields() == null || invitee.getFields().isEmpty()) {
+            throw new CmSignException(
+                    String.format("Invitee %s wasn't assigned a document field (signature location)",
+                            invitee.getName()));
+        }
     }
 
     private ArrayNode createFieldJsonArray(List<DocumentField> fields) {

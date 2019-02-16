@@ -1,11 +1,9 @@
 package be.pxl.data.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import java.util.List;
 
 /**
- *  A dossier is a collection of files with their assigned invitees along with the signing information
+ *  A dossier is a collection of documents with their assigned invitees along with the signing information
  *  The location on which the documents within a dossier need to be signed happens based on coordinates or a tag.
  *  With coordinates, an x and y coordinate ranging from 0.0 to 1.0 (start to end of document) is passed
  *  With tags, a String is specified to look for within the document, the invitee can sign at the location
@@ -14,14 +12,14 @@ import java.util.List;
 public class Dossier {
     private String id;
     private String name;
-    private List<Document> files;
+    private List<Document> documents;
     private List<Invitee> invitees;
 
     public Dossier() { }
 
-    public Dossier(String name, List<Document> files, List<Invitee> invitees) {
+    public Dossier(String name, List<Document> documents, List<Invitee> invitees) {
         this.name = name;
-        this.files = files;
+        this.documents = documents;
         this.invitees = invitees;
     }
 
@@ -29,8 +27,8 @@ public class Dossier {
         return name;
     }
 
-    public List<Document> getFiles() {
-        return files;
+    public List<Document> getDocuments() {
+        return documents;
     }
 
     public List<Invitee> getInvitees() {

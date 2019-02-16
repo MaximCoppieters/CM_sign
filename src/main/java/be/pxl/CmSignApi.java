@@ -4,7 +4,6 @@ import be.pxl.business.*;
 import be.pxl.data.model.*;
 import be.pxl.util.PathsUtility;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -41,11 +40,12 @@ public class CmSignApi {
     public void sendInvitationsForPdfFilePath(PdfFile pdfFile, List<Invitee> invitees) throws CmSignException {
         Document uploadedDocument = tryCreateDocument(pdfFile);
 
-        DocumentField signingField =
-                new DocumentField("signature", uploadedDocument.getId(), "{signature1}");
+        DocumentField signingField = new DocumentField("signature", uploadedDocument.getId(), "{signature1}");
 
         for (Invitee invitee : invitees) {
-            invitee.addField(signingField);
+            if (invitee.getFields() == null || invitee.getFields().isEmpty()) {
+                invitee.addField(signingField);
+            }
         }
 
         List<Document> documents = new ArrayList<>();

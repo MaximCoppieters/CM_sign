@@ -12,7 +12,7 @@ import java.net.URL;
 /**
  * Classes that inherit from this class gain HTTP GET request functionality.
  */
-public abstract class GetRequestUnit extends RequestUnit<String> {
+public abstract class GetRequestUnit extends RequestUnit {
     public CloseableHttpResponse get(URL getUrl) throws URISyntaxException, IOException {
         CloseableHttpClient cmRestClient = HttpClients.createDefault();
         HttpGet getRequest = new HttpGet(requestUrl.toURI());

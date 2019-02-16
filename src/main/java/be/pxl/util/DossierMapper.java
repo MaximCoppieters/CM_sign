@@ -1,12 +1,11 @@
 package be.pxl.util;
 
+import be.pxl.business.CmSignException;
 import be.pxl.data.model.*;
-import be.pxl.util.Mapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +31,8 @@ public class DossierMapper extends Mapper {
     }
 
     public String toJson(Dossier dossier) {
+        if (dossier == null) throw new CmSignException("Dossier passed to mapper was null");
+
         ObjectNode dossierJson = objectMapper.createObjectNode();
 
         dossierJson.put("name", dossier.getName());
@@ -46,7 +47,7 @@ public class DossierMapper extends Mapper {
 
     private JsonNode createFilesJson(Dossier dossier) {
         ArrayNode filesNode = objectMapper.createArrayNode();
-        for (Document document : dossier.getFiles()) {
+        for (Document document : dossier.getDocuments()) {
             ObjectNode fileNode = objectMapper.createObjectNode();
             fileNode.put("id", document.getId());
             filesNode.add(fileNode);
