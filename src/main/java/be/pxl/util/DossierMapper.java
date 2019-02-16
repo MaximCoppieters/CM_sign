@@ -15,6 +15,13 @@ import java.util.stream.Collectors;
  * Objects of this class map Dossiers to JSON, for use with the API
  */
 public class DossierMapper extends Mapper {
+
+    private InviteeMapper inviteeMapper;
+
+    public DossierMapper() {
+        inviteeMapper = new InviteeMapper();
+    }
+
     public Dossier appendResponseJson(Dossier dossier, String dossierResponseJsonString)
             throws IOException {
         JsonNode dossierResponseJson = objectMapper.readTree(dossierResponseJsonString);
@@ -50,73 +57,10 @@ public class DossierMapper extends Mapper {
 
     private ArrayNode createInviteeJsonArray(List<Invitee> invitees) {
         List<JsonNode> inviteesJson = invitees.stream()
-                .map(this::createInviteeJsonNode)
+                .map(inviteeMapper::toJsonNode)
                 .collect(Collectors.toList());
 
         return objectMapper.convertValue(inviteesJson, ArrayNode.class);
     }
 
-    private JsonNode createInviteeJsonNode(Invitee invitee) {
-        ObjectNode inviteeJson = objectMapper.createObjectNode();
-
-        inviteeJson.put("name", invitee.getName());
-        inviteeJson.put("email", invitee.getEmail());
-        inviteeJson.put("reference", invitee.getId());
-
-        ArrayNode fieldsJson = createFieldJsonArray(invitee.getFields());
-        inviteeJson.set("fields", fieldsJson);
-
-        return inviteeJson;
-    }
-
-    private ArrayNode createFieldJsonArray(List<DocumentField> fields) {
-        List<JsonNode> fieldJsons = fields.stream()
-                        .map(this::createFieldJsonNode)
-                        .collect(Collectors.toList());
-
-        return objectMapper.convertValue(fieldJsons, ArrayNode.class);
-    }
-
-    private JsonNode createFieldJsonNode(DocumentField field) {
-        ObjectNode fieldJson = objectMapper.createObjectNode();
-
-        fieldJson.put("type", field.getType());
-        fieldJson.put("file", field.getDocumentId());
-
-        if (field.getType().equals("signature")) {
-            fieldJson.put("tag", field.getTag());
-        } else {
-            fieldJson.put("range", field.getRange());
-            ObjectNode signDimensionsJson = createDimensionsJsonNode(field.getSignDimensions());
-            fieldJson.set("dimensions", signDimensionsJson);
-        }
-
-        return fieldJson;
-    }
-
-    private ObjectNode createDimensionsJsonNode(SignDimensions signDimensions) {
-        ObjectNode dimensionsJson = objectMapper.createObjectNode();
-
-        ObjectNode originJson = createOriginJsonNode(signDimensions.getOrigin());
-        dimensionsJson.set("origin", originJson);
-
-        ObjectNode sizeJson = createSizeJsonNode(signDimensions.getWidth(), signDimensions.getHeight());
-        dimensionsJson.set("size", sizeJson);
-
-        return dimensionsJson;
-    }
-
-    private ObjectNode createOriginJsonNode(Point origin) {
-        ObjectNode sizeJson = objectMapper.createObjectNode();
-        sizeJson.put("x", origin.x);
-        sizeJson.put("y", origin.y);
-        return sizeJson;
-    }
-
-    private ObjectNode createSizeJsonNode(int width, int height) {
-        ObjectNode sizeJsonNode = objectMapper.createObjectNode();
-        sizeJsonNode.put("width", width);
-        sizeJsonNode.put("height", height);
-        return sizeJsonNode;
-    }
 }

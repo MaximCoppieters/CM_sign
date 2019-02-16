@@ -13,8 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public class DossierHandler implements ApiHandler {
-    // private static final DateTimeFormatter dossierDateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+public class DossierHandler implements Handler {
     private static final String API_DOSSIER_ENDPOINT = "dossiers";
     private DossierUploader dossierUploader;
 
@@ -30,7 +29,7 @@ public class DossierHandler implements ApiHandler {
 
             dossierUploader = new DossierUploader(cmApiDossierUploadUrl);
         } catch(MalformedURLException e) {
-            throw new CmSignException("Dossier upload URL was invalid");
+            throw new CmSignException("Dossier post URL was invalid");
         }
     }
 
@@ -42,7 +41,7 @@ public class DossierHandler implements ApiHandler {
         Logger logger = LogManager.getLogger(DossierHandler.class.getName());
         try {
             logger.debug("Creating Dossier - Request body: " + dossierJson);
-            HttpResponse dossierPostResponse = dossierUploader.upload(dossierJson);
+            HttpResponse dossierPostResponse = dossierUploader.post(dossierJson);
             String dossierResponseJson = HttpUtility.getHttpBodyOf(dossierPostResponse);
 
             checkAndLogResponse(dossierPostResponse, dossierResponseJson);
@@ -50,7 +49,7 @@ public class DossierHandler implements ApiHandler {
             //add id to dossier
             dossierMapper.appendResponseJson(dossier, dossierResponseJson);
         } catch (IOException ioe) {
-            logger.error("Couldn't send post request to upload dossier " + dossier.getName() + ioe.getMessage());
+            logger.error("Couldn't send post request to post dossier " + dossier.getName() + ioe.getMessage());
         } catch (URISyntaxException e) {
             logger.error("The API endpoint is invalid " + e.getMessage());
         }
@@ -60,7 +59,7 @@ public class DossierHandler implements ApiHandler {
     public void checkAndLogResponse(HttpResponse pdfUploadResponse, String responseJson) {
         Logger logger = LogManager.getLogger(DossierHandler.class.getName());
         if (HttpUtility.apiCallWasSuccessful(pdfUploadResponse)) {
-            logger.debug("Created dossier through API, Response was "
+            logger.debug("Created dossier through API, "
                     + HttpUtility.formulateResponse(responseJson));
         } else {
             throw new CmSignException("Failed to create dossier - "

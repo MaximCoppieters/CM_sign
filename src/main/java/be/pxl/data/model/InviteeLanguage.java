@@ -15,4 +15,8 @@ public enum InviteeLanguage {
     private InviteeLanguage(String locale) {
         this.locale = locale;
     }
+
+    public String getLocale() {
+        return locale;
+    }
 }

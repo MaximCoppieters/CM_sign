@@ -13,7 +13,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-public class InviteHandler implements ApiHandler {
+public class InviteHandler implements Handler {
     private static final String API_INVITE_ENDPOINT_HEAD = "dossiers";
     private static final String API_INVITE_ENDPOINT_TAIL = "invites";
     private InviteSender inviteSender;
@@ -25,8 +25,8 @@ public class InviteHandler implements ApiHandler {
     public void sendEmailInvite(List<Invitee> invitees, String dossierId)
             throws IOException, URISyntaxException {
         URL cmSignInvitePostUrl = generateApiUrlForDossierId(dossierId);
-        inviteSender.setCmApiPostUrl(cmSignInvitePostUrl);
-        HttpResponse inviteResponse = inviteSender.upload(invitees);
+        inviteSender.setRequestUrl(cmSignInvitePostUrl);
+        HttpResponse inviteResponse = inviteSender.post(invitees);
         String inviteResponseBody = HttpUtility.getHttpBodyOf(inviteResponse);
 
         checkAndLogResponse(inviteResponse, inviteResponseBody);

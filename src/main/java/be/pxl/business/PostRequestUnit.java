@@ -11,41 +11,23 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public abstract class PostRequestUnit<T> {
-    protected Credentials credentials;
-    protected URL cmApiPostUrl;
-
-    public PostRequestUnit() {
-        this(null);
+public abstract class PostRequestUnit<T> extends RequestUnit<T> {
+    public PostRequestUnit(URL requestUrl) {
+        super(requestUrl);
     }
-
-    public PostRequestUnit(URL cmApiPostUrl) {
-        this.credentials = Credentials.getInstance();
-        this.cmApiPostUrl = cmApiPostUrl;
-    }
-
-    public CloseableHttpResponse upload(T body) throws URISyntaxException, IOException {
-        assert cmApiPostUrl != null;
-
-        CloseableHttpClient cmRestClient = HttpClients.createDefault();
-        HttpPost pdfPostRequest = new HttpPost(cmApiPostUrl.toURI());
-        setPostRequestHeaders(pdfPostRequest);
-
-        HttpEntity pdfPostRequestBody = createPostRequestBody(body);
-        pdfPostRequest.setEntity(pdfPostRequestBody);
-
-        return cmRestClient.execute(pdfPostRequest);
-    }
-
-    abstract protected void setPostRequestHeaders(HttpPost post);
 
     abstract protected HttpEntity createPostRequestBody(T bodyContent) throws UnsupportedEncodingException;
 
-    public String generateAuthorizationHeaderProperty(Credentials credentials) {
-        return String.format("Bearer %s", credentials.getCmJsonWebtoken());
-    }
+    public CloseableHttpResponse post(T body) throws URISyntaxException, IOException {
+        assert requestUrl != null;
 
-    public void setCmApiPostUrl(URL cmApiPostUrl) {
-        this.cmApiPostUrl = cmApiPostUrl;
+        CloseableHttpClient cmRestClient = HttpClients.createDefault();
+        HttpPost postRequest = new HttpPost(requestUrl.toURI());
+        setRequestHeaders(postRequest);
+
+        HttpEntity pdfPostRequestBody = createPostRequestBody(body);
+        postRequest.setEntity(pdfPostRequestBody);
+
+        return cmRestClient.execute(postRequest);
     }
 }

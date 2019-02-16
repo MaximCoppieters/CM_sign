@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class DocumentHandler implements ApiHandler {
+public class DocumentHandler implements Handler {
     private static final String API_UPLOAD_ENDPOINT = "upload";
     private PdfUploader pdfUploader;
 
@@ -30,7 +30,7 @@ public class DocumentHandler implements ApiHandler {
     }
 
     public Document createDocumentFrom(PdfFile pdfFile) throws IOException, URISyntaxException {
-        HttpResponse pdfUploadResponse = pdfUploader.upload(pdfFile);
+        HttpResponse pdfUploadResponse = pdfUploader.post(pdfFile);
         String documentJsonString = HttpUtility.getHttpBodyOf(pdfUploadResponse);
 
         checkAndLogResponse(pdfUploadResponse, documentJsonString);

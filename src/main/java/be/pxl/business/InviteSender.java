@@ -6,16 +6,26 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.List;
 
 public class InviteSender extends PostRequestUnit<List<Invitee>> {
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    public InviteSender(URL requestUrl) {
+        super(requestUrl);
+    }
+
+    public InviteSender() {
+        super(null);
+    }
+
     @Override
-    protected void setPostRequestHeaders(HttpPost invitePostRequest) {
+    protected void setRequestHeaders(HttpRequestBase invitePostRequest) {
         invitePostRequest.addHeader("Content-Type", "application/json");
         invitePostRequest.addHeader("Authorization", generateAuthorizationHeaderProperty(credentials));
     }

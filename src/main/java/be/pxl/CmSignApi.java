@@ -41,8 +41,6 @@ public class CmSignApi {
     public void sendInvitationsForPdfFilePath(PdfFile pdfFile, List<Invitee> invitees) throws CmSignException {
         Document uploadedDocument = tryCreateDocument(pdfFile);
 
-        SignDimensions signDimensions =
-                new SignDimensions(new Point(0,0),0,0);
         DocumentField signingField =
                 new DocumentField("signature", uploadedDocument.getId(), "{signature1}");
 
@@ -53,7 +51,7 @@ public class CmSignApi {
         List<Document> documents = new ArrayList<>();
         documents.add(uploadedDocument);
 
-        Dossier dossier = new Dossier(pdfFile.getFileName().toString(), documents, invitees);
+        Dossier dossier = new Dossier(pdfFile.getFileName(), documents, invitees);
         tryCreateDossier(dossier);
 
         trySendInvite(invitees, dossier.getId());
@@ -71,7 +69,7 @@ public class CmSignApi {
         try {
             return documentHandler.createDocumentFrom(pdfFile);
         } catch (IOException e) {
-            errorMessage = String.format("Couldn't find the document to upload at path %s",
+            errorMessage = String.format("Couldn't send pdfFile %s, the file/binary is in the wrong format",
                     PathsUtility.getPdfPath().toString());
         } catch (URISyntaxException e) {
             errorMessage = String.format("The URI to which the document was being uploaded was incorrect",

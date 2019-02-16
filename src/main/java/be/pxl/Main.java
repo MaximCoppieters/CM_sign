@@ -4,6 +4,7 @@ import be.pxl.business.CmSignException;
 import be.pxl.data.model.Invitee;
 import be.pxl.data.model.PdfFile;
 import be.pxl.util.PathsUtility;
+import org.apache.http.HttpRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
