@@ -13,6 +13,11 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+/**
+ * Responsable for all actions concerned with Dossiers.
+ * Dossiers aggregate documents and invitees assigned to sign them
+ * Uses composition of a DossierUploader object to do low level REST calls
+ */
 public class DossierHandler implements Handler {
     private static final String API_DOSSIER_ENDPOINT = "dossiers";
     private DossierUploader dossierUploader;

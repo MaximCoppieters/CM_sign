@@ -13,6 +13,10 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
+/**
+ * Responsable for all actions considering invitations to the signing of contracts.
+ * Uses composition of a InviteSender object to do low level REST calls to CM Sign API
+ */
 public class InviteHandler implements Handler {
     private static final String API_INVITE_ENDPOINT_HEAD = "dossiers";
     private static final String API_INVITE_ENDPOINT_TAIL = "invites";

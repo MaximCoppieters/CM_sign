@@ -14,6 +14,11 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Responsable for all actions concerned with documents
+ * Documents are PDF files that have been posted to the CM api and thus given an ID, hash and upload date
+ * Uses composition of a PdfUploader object to do low level REST calls
+ */
 public class DocumentHandler implements Handler {
     private static final String API_UPLOAD_ENDPOINT = "upload";
     private PdfUploader pdfUploader;

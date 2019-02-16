@@ -1,19 +1,15 @@
 package be.pxl.business;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
-public abstract class RequestUnit<T> {
+
+/**
+ * Classes that inherit RequestUnit gain HTTP functionality in the form of header
+ * authentication (eg. JSON Web Token) and the ability to set an URL endpoint.
+ */
+public abstract class RequestUnit {
     protected Credentials credentials;
     protected URL requestUrl;
 

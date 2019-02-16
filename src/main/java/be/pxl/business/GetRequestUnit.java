@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+/**
+ * Classes that inherit from this class gain HTTP GET request functionality.
+ */
 public abstract class GetRequestUnit extends RequestUnit<String> {
-    public GetRequestUnit(URL requestUrl) {
-        super(requestUrl);
-    }
-
-    public CloseableHttpResponse get() throws URISyntaxException, IOException {
+    public CloseableHttpResponse get(URL getUrl) throws URISyntaxException, IOException {
         CloseableHttpClient cmRestClient = HttpClients.createDefault();
         HttpGet getRequest = new HttpGet(requestUrl.toURI());
         setRequestHeaders(getRequest);

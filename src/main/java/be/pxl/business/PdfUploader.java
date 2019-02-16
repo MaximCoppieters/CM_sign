@@ -11,6 +11,10 @@ import org.apache.http.entity.mime.content.FileBody;
 import java.net.URL;
 
 
+/**
+ * Objects of this class are concerned with posting the binary
+ * data of a PDF file to the CM Sign API. This is done in order to create Documents.
+ */
 public class PdfUploader extends PostRequestUnit<PdfFile> {
     private static final String REQUEST_PDF_BOUNDARY = "request-boundary";
     private static final String requestFileParameter = "file";

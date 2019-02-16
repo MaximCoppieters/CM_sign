@@ -11,7 +11,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-public abstract class PostRequestUnit<T> extends RequestUnit<T> {
+/**
+ * Classes that inherit from this class gain HTTP POST request functionality.
+ * The generic type of the created object defines the type of object passed to the body
+ * of the post request.
+ */
+public abstract class PostRequestUnit<T> extends RequestUnit {
     public PostRequestUnit(URL requestUrl) {
         super(requestUrl);
     }
